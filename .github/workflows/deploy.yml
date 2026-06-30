@@ -20,6 +20,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+          role-to-assume: arn:aws:iam::844572228725:role/LabRole
+          role-skip-session-tagging: true
 
       - name: Login to Amazon ECR
         id: login-ecr
@@ -123,6 +125,8 @@ jobs:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: us-east-1
+          role-to-assume: arn:aws:iam::844572228725:role/LabRole
+          role-skip-session-tagging: true
 
       - name: Login to Amazon ECR
         id: login-ecr
