@@ -88,7 +88,7 @@ jobs:
 
       - name: Render frontend image
         id: render-frontend
-        uses: aws-actions/amazon-ecs-render-task-definition@v2
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
           container-name: frontend
@@ -96,7 +96,7 @@ jobs:
 
       - name: Render backend-js image
         id: render-backend-js
-        uses: aws-actions/amazon-ecs-render-task-definition@v2
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.render-frontend.outputs.task-definition }}
           container-name: backend-js
@@ -104,14 +104,14 @@ jobs:
 
       - name: Render backend-py image
         id: render-backend-py
-        uses: aws-actions/amazon-ecs-render-task-definition@v2
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: ${{ steps.render-backend-js.outputs.task-definition }}
           container-name: backend-py
           image: 844572228725.dkr.ecr.us-east-1.amazonaws.com/backend-py:${{ github.sha }}
 
       - name: Deploy to Amazon ECS
-        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
         with:
           task-definition: ${{ steps.render-backend-py.outputs.task-definition }}
           service: examen-devops-service
