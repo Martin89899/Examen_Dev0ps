@@ -1,0 +1,122 @@
+{
+  "family": "examen-devops-task",
+  "networkMode": "awsvpc",
+  "requiresCompatibilities": ["FARGATE"],
+  "cpu": "512",
+  "memory": "1024",
+  "containerDefinitions": [
+    {
+      "name": "frontend",
+      "image": "844572228725.dkr.ecr.us-east-1.amazonaws.com/frontend:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8080,
+          "protocol": "tcp"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/examen-devops",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "frontend"
+        }
+      }
+    },
+    {
+      "name": "backend-js",
+      "image": "844572228725.dkr.ecr.us-east-1.amazonaws.com/backend-js:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8081,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "examen-mysql-db.ctifppb2qt2m.us-east-1.rds.amazonaws.com"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        },
+        {
+          "name": "DB_USER",
+          "value": "root"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "rootpassword"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "backendjs_db"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:123456789012:secret:examen-devops/db-password"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/examen-devops",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "backend-js"
+        }
+      }
+    },
+    {
+      "name": "backend-py",
+      "image": "844572228725.dkr.ecr.us-east-1.amazonaws.com/backend-py:latest",
+      "essential": true,
+      "portMappings": [
+        {
+          "containerPort": 8082,
+          "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "DB_HOST",
+          "value": "examen-mysql-db.ctifppb2qt2m.us-east-1.rds.amazonaws.com"
+        },
+        {
+          "name": "DB_PORT",
+          "value": "3306"
+        },
+        {
+          "name": "DB_USER",
+          "value": "root"
+        },
+        {
+          "name": "DB_PASSWORD",
+          "value": "rootpassword"
+        },
+        {
+          "name": "DB_NAME",
+          "value": "backendpy_db"
+        }
+      ],
+      "secrets": [
+        {
+          "name": "DB_PASSWORD",
+          "valueFrom": "arn:aws:secretsmanager:us-east-1:123456789012:secret:examen-devops/db-password"
+        }
+      ],
+      "logConfiguration": {
+        "logDriver": "awslogs",
+        "options": {
+          "awslogs-group": "/ecs/examen-devops",
+          "awslogs-region": "us-east-1",
+          "awslogs-stream-prefix": "backend-py"
+        }
+      }
+    }
+  ]
+}
