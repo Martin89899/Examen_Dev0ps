@@ -4,8 +4,9 @@ WORKDIR /app
 # Copiamos el archivo de configuración de Maven para aprovechar la caché
 COPY pom.xml .
 RUN mvn dependency:go-offline -B
-# Copiamos el código fuente y compilamos el proyecto
+# Copiamos el código fuente y el archivo .env para configuración de producción
 COPY src ./src
+COPY .env .
 RUN mvn clean package -DskipTests
 # Ejecutamos el generador para crear los archivos estáticos
 RUN java -cp target/classes:$(mvn dependency:build-classpath -Dmdep.outputFile=/dev/stdout -q) com.eval3.frontend.StaticPageGenerator
