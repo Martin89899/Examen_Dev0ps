@@ -57,7 +57,10 @@ services:
       dockerfile: Dockerfile
     container_name: frontend
     ports:
-      - "8080:8080"
+      - "8080:80"
+    environment:
+      BACKEND_USERS_URL: http://backend-js:8081
+      BACKEND_PRODUCTS_URL: http://backend-py:8082
     networks:
       - app-network
 

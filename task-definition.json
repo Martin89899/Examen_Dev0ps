@@ -15,8 +15,18 @@
       "essential": true,
       "portMappings": [
         {
-          "containerPort": 8080,
+          "containerPort": 80,
           "protocol": "tcp"
+        }
+      ],
+      "environment": [
+        {
+          "name": "BACKEND_USERS_URL",
+          "value": "http://backend-js:8081"
+        },
+        {
+          "name": "BACKEND_PRODUCTS_URL",
+          "value": "http://backend-py:8082"
         }
       ],
       "logConfiguration": {

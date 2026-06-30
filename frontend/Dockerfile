@@ -7,11 +7,12 @@ RUN mvn dependency:go-offline -B
 # Copiamos el código fuente y compilamos el proyecto
 COPY src ./src
 RUN mvn clean package -DskipTests
+# Ejecutamos el generador para crear los archivos estáticos
+RUN java -cp target/classes:$(mvn dependency:build-classpath -Dmdep.outputFile=/dev/stdout -q) com.eval3.frontend.StaticPageGenerator
 
-# --- ETAPA 2: Ejecución (Runtime) ---
-FROM eclipse-temurin:17-jre-alpine
-WORKDIR /app
-# Copiamos el archivo JAR generado en la etapa anterior
-COPY --from=builder /app/target/*.jar app.jar
-EXPOSE 8080
-CMD ["java", "-jar", "app.jar"]
+# --- ETAPA 2: Producción (Servidor Web) ---
+FROM nginx:1.25-alpine
+# Copiamos los archivos estáticos generados por Java hacia el directorio de Nginx
+COPY --from=builder /app/output /usr/share/nginx/html
+EXPOSE 80
+CMD ["nginx", "-g", "daemon off;"]
