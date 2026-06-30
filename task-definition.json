@@ -1,7 +1,9 @@
 {
   "family": "examen-devops-task",
   "networkMode": "awsvpc",
-  "requiresCompatibilities": ["FARGATE"],
+  "requiresCompatibilities": [
+    "FARGATE"
+  ],
   "cpu": "512",
   "memory": "1024",
   "containerDefinitions": [
@@ -56,12 +58,6 @@
           "value": "backendjs_db"
         }
       ],
-      "secrets": [
-        {
-          "name": "DB_PASSWORD",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:123456789012:secret:examen-devops/db-password"
-        }
-      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "options": {
@@ -101,12 +97,6 @@
         {
           "name": "DB_NAME",
           "value": "backendpy_db"
-        }
-      ],
-      "secrets": [
-        {
-          "name": "DB_PASSWORD",
-          "valueFrom": "arn:aws:secretsmanager:us-east-1:123456789012:secret:examen-devops/db-password"
         }
       ],
       "logConfiguration": {
