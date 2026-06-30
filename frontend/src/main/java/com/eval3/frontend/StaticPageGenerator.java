@@ -642,8 +642,8 @@ function showSection(sectionName) {
 }
 """;
 
-        js = js.replace("{{BACKEND_USERS_URL}}", usersUrl)
-               .replace("{{BACKEND_PRODUCTS_URL}}", productsUrl);
+        js = js.replace("{{BACKEND_USERS_URL}}", usersPath)
+               .replace("{{BACKEND_PRODUCTS_URL}}", productsPath);
         
         try (FileWriter writer = new FileWriter(OUTPUT_DIR + "/script.js")) {
             writer.write(js);
