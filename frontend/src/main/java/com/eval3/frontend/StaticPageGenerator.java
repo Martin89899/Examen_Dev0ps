@@ -486,7 +486,7 @@ function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666;">Cargando productos...</p>';
     
-    fetch(window.location.origin + '{{BACKEND_PRODUCTS_URL}}')
+    fetch('http://' + window.location.hostname + ':8082' + '{{BACKEND_PRODUCTS_URL}}')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al responder del servidor');
@@ -569,7 +569,7 @@ function handleRegister(event) {
     }
     
     // Enviar petición al Backend 1 (User Service)
-    fetch(window.location.origin + '{{BACKEND_USERS_URL}}/register', {
+    fetch('http://' + window.location.hostname + ':8081' + '{{BACKEND_USERS_URL}}/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
