@@ -29,6 +29,22 @@ def get_db_connection():
         return None
 
 def init_db():
+    # First connect without specifying database to create it if needed
+    temp_config = db_config.copy()
+    temp_config.pop('database', None)
+    
+    try:
+        temp_connection = mysql.connector.connect(**temp_config)
+        cursor = temp_connection.cursor()
+        cursor.execute(f"CREATE DATABASE IF NOT EXISTS `{db_config['database']}`")
+        temp_connection.commit()
+        print(f"Database {db_config['database']} ready or created")
+        cursor.close()
+        temp_connection.close()
+    except Error as e:
+        print(f"Error creating database: {e}")
+        return
+    
     connection = get_db_connection()
     if connection:
         cursor = connection.cursor()

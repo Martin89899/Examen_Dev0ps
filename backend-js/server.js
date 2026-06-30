@@ -16,6 +16,21 @@ let db;
 
 async function initDB() {
     try {
+        // First connect without specifying database to create it if needed
+        let tempDb = await mysql.createConnection({
+            host: process.env.DB_HOST,
+            port: process.env.DB_PORT,
+            user: process.env.DB_USER,
+            password: process.env.DB_PASSWORD
+        });
+        console.log('Connected to MySQL server');
+
+        // Create database if not exists
+        await tempDb.execute(`CREATE DATABASE IF NOT EXISTS \`${process.env.DB_NAME}\``);
+        console.log(`Database ${process.env.DB_NAME} ready or created`);
+        await tempDb.end();
+
+        // Now connect to the specific database
         db = await mysql.createConnection({
             host: process.env.DB_HOST,
             port: process.env.DB_PORT,
@@ -24,7 +39,7 @@ async function initDB() {
             database: process.env.DB_NAME
         });
         console.log('Connected to MySQL database');
-        
+
         // Create users table if not exists
         await db.execute(`
             CREATE TABLE IF NOT EXISTS users (
