@@ -1,5 +1,7 @@
 {
   "family": "examen-devops-task",
+  "executionRoleArn": "arn:aws:iam::844572228725:role/LabRole",
+  "taskRoleArn": "arn:aws:iam::844572228725:role/LabRole",
   "networkMode": "awsvpc",
   "requiresCompatibilities": [
     "FARGATE"
