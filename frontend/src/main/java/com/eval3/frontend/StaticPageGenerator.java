@@ -398,9 +398,9 @@ footer {
     }
 
     private static void generateScriptJs() throws IOException {
-        String usersUrl = getEnv("BACKEND_USERS_URL", "http://localhost:8081");
-        String productsUrl = getEnv("BACKEND_PRODUCTS_URL", "http://localhost:8082");
-        System.out.println("Configurando frontend: Users API -> " + usersUrl + " | Products API -> " + productsUrl);
+        String usersPath = getEnv("BACKEND_USERS_URL", "/api/users");
+        String productsPath = getEnv("BACKEND_PRODUCTS_URL", "/api/products");
+        System.out.println("Configurando frontend: Users API -> " + usersPath + " | Products API -> " + productsPath);
 
         String js = """
 
@@ -486,7 +486,7 @@ function loadProducts() {
     const productsGrid = document.getElementById('products-grid');
     productsGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: #666;">Cargando productos...</p>';
     
-    fetch('{{BACKEND_PRODUCTS_URL}}/api/products')
+    fetch(window.location.origin + '{{BACKEND_PRODUCTS_URL}}')
         .then(response => {
             if (!response.ok) {
                 throw new Error('Error al responder del servidor');
@@ -569,7 +569,7 @@ function handleRegister(event) {
     }
     
     // Enviar petición al Backend 1 (User Service)
-    fetch('{{BACKEND_USERS_URL}}/api/users/register', {
+    fetch(window.location.origin + '{{BACKEND_USERS_URL}}/register', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
